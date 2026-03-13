@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { cardService } from '../services/api';
+import { cardService, whatsAppService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import './Dashboard.css';
 
@@ -40,6 +40,15 @@ const Dashboard = () => {
       loadCards();
     } catch (error) {
       alert('Failed to block card');
+    }
+  };
+
+  const handleCancelViaWhatsApp = async (cardId) => {
+    try {
+      const response = await whatsAppService.getCancelLink(cardId);
+      window.open(response.data.link, '_blank');
+    } catch (error) {
+      alert('Failed to generate WhatsApp link');
     }
   };
 
@@ -103,6 +112,16 @@ const Dashboard = () => {
                         Block
                       </button>
                     )}
+                  </div>
+                )}
+                {!isAdmin() && card.status === 'ACTIVE' && (
+                  <div className="card-actions">
+                    <button 
+                      className="btn-whatsapp"
+                      onClick={() => handleCancelViaWhatsApp(card.id)}
+                    >
+                      Cancel via WhatsApp
+                    </button>
                   </div>
                 )}
               </div>

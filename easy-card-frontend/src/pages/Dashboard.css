@@ -142,3 +142,12 @@
   background: #dc3545;
   color: white;
 }
+
+.btn-whatsapp {
+  background: #25D366;
+  color: white;
+}
+
+.btn-whatsapp:hover {
+  background: #1da851;
+}

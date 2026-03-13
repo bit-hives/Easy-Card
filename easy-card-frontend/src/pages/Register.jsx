@@ -10,6 +10,7 @@ const Register = () => {
     password: '',
     firstName: '',
     lastName: '',
+    phoneNumber: '',
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -59,6 +60,12 @@ const Register = () => {
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             required
+          />
+          <input
+            type="tel"
+            placeholder="WhatsApp Phone Number (e.g., +1234567890)"
+            value={formData.phoneNumber}
+            onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
           />
           <button type="submit">Register</button>
         </form>

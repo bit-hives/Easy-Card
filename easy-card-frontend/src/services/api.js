@@ -39,4 +39,8 @@ export const transactionService = {
   getMyTransactions: () => api.get('/transactions'),
 };
 
+export const whatsAppService = {
+  getCancelLink: (cardId) => api.get(`/whatsapp/cancel-link/${cardId}`),
+};
+
 export default api;

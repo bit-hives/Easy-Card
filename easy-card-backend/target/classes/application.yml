@@ -29,6 +29,17 @@ jwt:
   secret: ThisIsASecretKeyForJWTTokenGenerationThatIsLongEnough123456789
   expiration: 86400000
 
+whatsapp:
+  phone-number-id: ${WHATSAPP_PHONE_NUMBER_ID:}
+  auth-token: ${WHATSAPP_AUTH_TOKEN:}
+  verify-token: ${WHATSAPP_VERIFY_TOKEN:EasyCardVerify2024}
+  business-phone: ${WHATSAPP_BUSINESS_PHONE:}
+  expiry-notification-days: 30
+
+scheduler:
+  enabled: true
+  cron: "0 0 9 * * *"  # Run daily at 9 AM
+
 logging:
   level:
     com.easycard: DEBUG
