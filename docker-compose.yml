@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: easycard
+      POSTGRES_USER: easycard
+      POSTGRES_PASSWORD: easycard123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U easycard"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./easy-card-backend
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/easycard
+      SPRING_DATASOURCE_USERNAME: easycard
+      SPRING_DATASOURCE_PASSWORD: easycard123
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+      JWT_SECRET: ThisIsASecretKeyForJWTTokenGenerationThatIsLongEnough123456789
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./easy-card-frontend
+      dockerfile: Dockerfile
+    environment:
+      VITE_API_URL: http://localhost:8080
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
